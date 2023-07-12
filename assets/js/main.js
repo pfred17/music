@@ -22,65 +22,64 @@ const app = {
   isLoop: false,
   songs: [
     {
-      name: "Call Of My Name",
-      singer: "The Weeknd",
-      path: "./assets/song/song10.mp3",
-      img: "./assets/img/img10.jpg",
-    },
-    {
-      name: "Relay trên con Guây",
-      singer: "Phúc Du",
+      name: "Heart",
+      singer: "msftz",
       path: "./assets/song/song1.mp3",
-      img: "./assets/img/img1.webp",
+      img: "./assets/img/img1.jpg",
     },
     {
-      name: "Giây phút",
-      singer: "Kidsai",
+      name: "Solo",
+      singer: "Jennie",
       path: "./assets/song/song2.mp3",
       img: "./assets/img/img2.jpg",
-      author: "Phúc Du",
     },
     {
-      name: "Hrs and Hrs",
-      singer: "Muni Long",
+      name: "You and Me",
+      singer: "Jennie",
       path: "./assets/song/song3.mp3",
       img: "./assets/img/img3.jpg",
     },
     {
-      name: "Get You",
-      singer: "Daniel Ceasar",
+      name: "Just Friend",
+      singer: "Why don't we",
       path: "./assets/song/song4.mp3",
       img: "./assets/img/img4.jpg",
     },
     {
-      name: "Chuyện đôi ta",
-      singer: "Muội",
+      name: "Em khiến anh muốn trở thành người Hà Nội",
+      singer: "Negav",
       path: "./assets/song/song5.mp3",
       img: "./assets/img/img5.jpg",
     },
     {
-      name: "Em không khóc",
-      singer: "Buitruonglinh",
+      name: "Your Smile",
+      singer: "Obito ft Hnhngan",
       path: "./assets/song/song6.mp3",
       img: "./assets/img/img6.jpg",
     },
     {
-      name: "Lana de rey",
-      singer: "Anonymous",
+      name: "In Bloom",
+      singer: "ZEROBASEONE",
       path: "./assets/song/song7.mp3",
       img: "./assets/img/img7.jpg",
     },
     {
-      name: "Another love",
-      singer: "Tom Adell",
+      name: "Start Boy",
+      singer: "The Weeknd",
       path: "./assets/song/song8.mp3",
       img: "./assets/img/img8.jpg",
     },
     {
-      name: "Under The Influence",
-      singer: "Chris Brown ",
+      name: "Đá tan",
+      singer: "Ngọt, Giọt mai sương",
       path: "./assets/song/song9.mp3",
       img: "./assets/img/img9.jpg",
+    },
+    {
+      name: "Out of time",
+      singer: "The Weeknd",
+      path: "./assets/song/song10.mp3",
+      img: "./assets/img/img10.jpg",
     },
   ],
   defineProperties: function () {
@@ -211,6 +210,7 @@ const app = {
         _this.renderPlaylist();
         audio.play();
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        closeBtn.click();
       }
     };
   },
