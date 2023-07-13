@@ -125,6 +125,13 @@ li {
   color: var(--text-color-2);
   font-weight: 600;
   padding: 10px 0;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: 28px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .author {
   font-size: 1rem;
@@ -441,19 +448,19 @@ input[type="range"]::-ms-thumb {
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
-.item-song:hover {
-  background: rgb(73, 71, 200, 0.5);
-}
-.item-song:hover .item-name,
-.item-song:hover .list-songs_icon {
-  color: var(--text-color);
-}
 .item-song.active {
   background: linear-gradient(30deg, #5c258d, #4389a2);
 }
 .item-song.active .item-name,
 .item-song.active .list-songs_icon {
   color: var(--text-color);
+}
+.item-name {
+  color: #222;
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #style-4::-webkit-scrollbar {
   width: 0;

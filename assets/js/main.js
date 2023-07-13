@@ -9,6 +9,7 @@ const progress = $("#progress");
 const nextBtn = $(".next");
 const prevBtn = $(".prev");
 const randomSong = $(".random");
+const random = $(".random");
 const loop = $(".loop");
 const closeBtn = $(".close");
 const playListBtn = $(".list-songs");
@@ -44,12 +45,6 @@ const app = {
       singer: "Why don't we",
       path: "./assets/song/song4.mp3",
       img: "./assets/img/img4.jpg",
-    },
-    {
-      name: "Em khiến anh muốn trở thành người Hà Nội",
-      singer: "Negav",
-      path: "./assets/song/song5.mp3",
-      img: "./assets/img/img5.jpg",
     },
     {
       name: "Your Smile",
@@ -115,8 +110,7 @@ const app = {
   handleEvent: function () {
     const _this = this;
     // Active tiêu đề
-    const random = $(".random");
-    random.onclick = function () {
+    randomSong.onclick = function () {
       this.classList.toggle("active");
     };
     // Play audio
@@ -182,6 +176,9 @@ const app = {
         _this.replaySong();
       } else {
         this.classList.remove("active");
+        audio.onended = function () {
+          nextBtn.click();
+        };
       }
     };
     // Khi hết bài hát thì next sang bài kế tiếp
