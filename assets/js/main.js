@@ -14,63 +14,86 @@ const loop = $(".loop");
 const closeBtn = $(".close");
 const playListBtn = $(".list-songs");
 const boxPlaylist = $(".list-songs_box");
+const boxPlaylistLove = $(".list-love-songs_box");
 const allSong = $(".all-songs");
+const favouriteSongs = $(".favourite-songs");
+const allSongLove = $(".all-songs-love");
 const overlay = $(".overlay");
+const closeLoveSongPlaylist = $(".closeLovePlaylist");
 const app = {
-  currentIndex: 0,
+  currentIndex: 1,
+  currentActive: 0,
   isPlaying: false,
   isRandom: false,
   isLoop: false,
+  isLoveSong: false,
+  playlistLove: [],
   songs: [
     {
+      id: 1,
       name: "Heart",
       singer: "msftz",
       path: "./assets/song/song1.mp3",
       img: "./assets/img/img1.jpg",
     },
     {
+      id: 2,
       name: "Solo",
       singer: "Jennie",
       path: "./assets/song/song2.mp3",
       img: "./assets/img/img2.jpg",
     },
     {
+      id: 3,
       name: "You and Me",
       singer: "Jennie",
       path: "./assets/song/song3.mp3",
       img: "./assets/img/img3.jpg",
     },
     {
+      id: 4,
       name: "Just Friend",
       singer: "Why don't we",
       path: "./assets/song/song4.mp3",
       img: "./assets/img/img4.jpg",
     },
     {
+      id: 5,
+      name: "Hái Sao",
+      singer: "Pixel Neko",
+      path: "./assets/song/song5.mp3",
+      img: "./assets/img/img5.jpg",
+    },
+    {
+      id: 6,
       name: "Your Smile",
       singer: "Obito ft Hnhngan",
       path: "./assets/song/song6.mp3",
       img: "./assets/img/img6.jpg",
     },
     {
+      id: 7,
       name: "In Bloom",
       singer: "ZEROBASEONE",
       path: "./assets/song/song7.mp3",
       img: "./assets/img/img7.jpg",
     },
     {
+      id: 8,
       name: "Start Boy",
       singer: "The Weeknd",
       path: "./assets/song/song8.mp3",
       img: "./assets/img/img8.jpg",
     },
     {
+      id: 9,
       name: "Đá tan",
       singer: "Ngọt, Giọt mai sương",
       path: "./assets/song/song9.mp3",
       img: "./assets/img/img9.jpg",
     },
     {
+      id: 10,
       name: "Out of time",
       singer: "The Weeknd",
       path: "./assets/song/song10.mp3",
@@ -80,7 +103,11 @@ const app = {
   defineProperties: function () {
     Object.defineProperty(this, "currentSong", {
       get: function () {
-        return this.songs[this.currentIndex];
+        if (this.isLoveSong) {
+          return this.playlistLove[this.currentIndex];
+        } else {
+          return this.songs[this.currentIndex];
+        }
       },
     });
   },
@@ -88,18 +115,35 @@ const app = {
     const htmls = this.songs.map((song, index) => {
       return `
       <div class="item-song ${
-        index === this.currentIndex ? "active" : ""
-      }" data-index = ${index}>
+        song.id === this.currentActive ? "active" : ""
+      }" data-index = ${index} active=${song.id}>
       <div class="left-item-song">
         <div class="avatar">
           <img src="${song.img}" alt="#" class=" avatar avatar-img">
         </div>
           <span class="item-name">${song.name}</span>
       </div>
-      <span class="list-songs_icon"><i class="fa-regular fa-heart"></i></span>
+      <span class="list-songs_icon" data-index = ${index}><i class="fa-regular fa-heart"></i></span>
     </div>`;
     });
     allSong.innerHTML = htmls.join("");
+  },
+  renderPlaylistLove: function () {
+    const htmls = this.playlistLove.map((item, index) => {
+      return `
+      <div class="item-song-love ${
+        item.id === this.currentActive ? "active" : ""
+      }" data-index = ${index} active=${item.id}>
+        <div class="left-item-song">
+          <div class="avatar">
+            <img src="${item.img}" alt="#" class=" avatar avatar-img">
+          </div>
+            <span class="item-name">${item.name}</span>
+        </div>
+        <span class="list-songs_icon-love"><i class="fa-regular fa-heart"></i></span>
+      </div>`;
+    });
+    allSongLove.innerHTML = htmls.join("");
   },
   loadCurrentSong: function () {
     cd.src = this.currentSong.img;
@@ -195,19 +239,56 @@ const app = {
       boxPlaylist.style.display = "none";
       overlay.style.display = "none";
     };
-    overlay.onclick = function () {
-      closeBtn.click();
+    // Ẩn danh sách bài hát yêu thích
+    closeLoveSongPlaylist.onclick = function () {
+      boxPlaylistLove.style.display = "none";
+      overlay.style.display = "none";
     };
-    // Bật nhạc khi nhấn vào bài hát trong playlist
+    // Hiện danh sách bài hát yêu thích
+    favouriteSongs.onclick = function () {
+      boxPlaylistLove.style.display = "block";
+      overlay.style.display = "block";
+      // Render playlist love
+      _this.renderPlaylistLove();
+    };
+    // Bật nhạc khi nhấn vào bài hát trong playlist và thêm bài hát yêu thích
     allSong.onclick = function (e) {
+      // Bật nhạc
       const songElenment = e.target.closest(".item-song:not(.active)");
-      if (songElenment || e.target.closest(".list-songs_icon")) {
+      const loveSongElement = e.target.closest(".list-songs_icon");
+      if (songElenment && !loveSongElement) {
+        _this.isLoveSong = false;
+        _this.currentActive = Number(songElenment.getAttribute("active"));
         _this.currentIndex = Number(songElenment.dataset.index);
         _this.loadCurrentSong();
         _this.renderPlaylist();
         audio.play();
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        closeBtn.click();
+        loveSongElement.classList.add("active");
+        // closeBtn.click();
+      }
+      // Thêm bài hát yêu thích
+      if (loveSongElement) {
+        const indexLoveSong = Number(loveSongElement.dataset.index);
+        _this.addSongLove(indexLoveSong);
+        loveSongElement.classList.add("active");
+      }
+    };
+
+    // Bật nhạc bài hát yêu thích khi nhấn vào bài hát trong playlist
+    allSongLove.onclick = function (e) {
+      const songLoveElenment = e.target.closest(".item-song-love:not(.active)");
+      const loveSongElement = e.target.closest(".list-songs_icon");
+      if (songLoveElenment) {
+        _this.isLoveSong = true;
+        _this.currentActive = Number(songLoveElenment.getAttribute("active"));
+        console.log(_this.currentActive);
+        _this.currentIndex = Number(songLoveElenment.dataset.index);
+        _this.loadCurrentSong();
+        _this.renderPlaylistLove();
+        _this.renderPlaylist();
+        audio.play();
+        playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
       }
     };
   },
@@ -241,6 +322,11 @@ const app = {
       progress.value = 0;
       this.play();
     };
+  },
+  addSongLove: function (indexLoveSong) {
+    const indexArrSongs = this.songs[indexLoveSong];
+    this.playlistLove.push(indexArrSongs);
+    console.log(this.playlistLove);
   },
   start: function () {
     // Định nghĩa các thuôc tính cho object
