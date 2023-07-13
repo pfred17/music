@@ -320,6 +320,7 @@ const app = {
       this.currentIndex = newIndex;
       newIndex = Math.floor(Math.random() * this.songs.length);
       this.loadCurrentSong();
+      this.currentActive = this.currentIndex;
     }
   },
   replaySong: function () {
