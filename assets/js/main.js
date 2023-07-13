@@ -21,7 +21,7 @@ const allSongLove = $(".all-songs-love");
 const overlay = $(".overlay");
 const closeLoveSongPlaylist = $(".closeLovePlaylist");
 const app = {
-  currentIndex: 1,
+  currentIndex: 0,
   currentActive: 0,
   isPlaying: false,
   isRandom: false,
@@ -30,70 +30,70 @@ const app = {
   playlistLove: [],
   songs: [
     {
-      id: 1,
+      id: 0,
       name: "Heart",
       singer: "msftz",
       path: "./assets/song/song1.mp3",
       img: "./assets/img/img1.jpg",
     },
     {
-      id: 2,
+      id: 1,
       name: "Solo",
       singer: "Jennie",
       path: "./assets/song/song2.mp3",
       img: "./assets/img/img2.jpg",
     },
     {
-      id: 3,
+      id: 2,
       name: "You and Me",
       singer: "Jennie",
       path: "./assets/song/song3.mp3",
       img: "./assets/img/img3.jpg",
     },
     {
-      id: 4,
+      id: 3,
       name: "Just Friend",
       singer: "Why don't we",
       path: "./assets/song/song4.mp3",
       img: "./assets/img/img4.jpg",
     },
     {
-      id: 5,
+      id: 4,
       name: "Hái Sao",
       singer: "Pixel Neko",
       path: "./assets/song/song5.mp3",
       img: "./assets/img/img5.jpg",
     },
     {
-      id: 6,
+      id: 5,
       name: "Your Smile",
       singer: "Obito ft Hnhngan",
       path: "./assets/song/song6.mp3",
       img: "./assets/img/img6.jpg",
     },
     {
-      id: 7,
+      id: 6,
       name: "In Bloom",
       singer: "ZEROBASEONE",
       path: "./assets/song/song7.mp3",
       img: "./assets/img/img7.jpg",
     },
     {
-      id: 8,
-      name: "Start Boy",
+      id: 7,
+      name: "Star Boy",
       singer: "The Weeknd",
       path: "./assets/song/song8.mp3",
       img: "./assets/img/img8.jpg",
     },
     {
-      id: 9,
+      id: 8,
       name: "Đá tan",
       singer: "Ngọt, Giọt mai sương",
       path: "./assets/song/song9.mp3",
       img: "./assets/img/img9.jpg",
     },
     {
-      id: 10,
+      id: 9,
       name: "Out of time",
       singer: "The Weeknd",
       path: "./assets/song/song10.mp3",
@@ -202,6 +202,7 @@ const app = {
       }
       playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
       audio.play();
+      _this.renderPlaylist();
     };
     // Random bài hát
     randomSong.onclick = function () {
@@ -297,6 +298,7 @@ const app = {
     if (this.currentIndex > this.songs.length - 1) {
       this.currentIndex = 0;
     }
+    this.currentActive = this.currentIndex;
     this.loadCurrentSong();
   },
   prevSong: function () {
@@ -305,6 +307,9 @@ const app = {
       this.currentIndex = this.songs.length - 1;
     }
     this.loadCurrentSong();
+    this.currentActive = this.currentIndex;
+    console.log(this.currentIndex);
+    console.log(this.currentActive);
   },
   randomPlaySong: function () {
     let newIndex;
@@ -326,7 +331,6 @@ const app = {
   addSongLove: function (indexLoveSong) {
     const indexArrSongs = this.songs[indexLoveSong];
     this.playlistLove.push(indexArrSongs);
-    console.log(this.playlistLove);
   },
   start: function () {
     // Định nghĩa các thuôc tính cho object
