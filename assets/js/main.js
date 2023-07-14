@@ -274,12 +274,12 @@ const app = {
       const loveSongElement = e.target.closest(".list-songs_icon");
       if (songElenment && !loveSongElement) {
         _this.isLoveSong = false;
-        loveSongElement.classList.add("active");
         _this.currentActive = Number(songElenment.getAttribute("active"));
         _this.currentIndex = Number(songElenment.dataset.index);
         _this.loadCurrentSong();
         _this.renderPlaylist();
         audio.play();
+        // loveSongElement.classList.add("active");
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
         // closeBtn.click();
       }
