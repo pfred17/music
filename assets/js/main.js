@@ -20,6 +20,8 @@ const favouriteSongs = $(".favourite-songs");
 const allSongLove = $(".all-songs-love");
 const overlay = $(".overlay");
 const closeLoveSongPlaylist = $(".closeLovePlaylist");
+const notification = $(".notification");
+console.log(notification);
 const app = {
   currentIndex: 0,
   currentActive: 0,
@@ -140,7 +142,7 @@ const app = {
           </div>
             <span class="item-name">${item.name}</span>
         </div>
-        <span class="list-songs_icon-love"><i class="fa-regular fa-heart"></i></span>
+        <span class="list-songs_icon-love"><i class="fa-regular fa-trash-can"></i></span>
       </div>`;
     });
     allSongLove.innerHTML = htmls.join("");
@@ -271,16 +273,26 @@ const app = {
       // Thêm bài hát yêu thích
       if (loveSongElement) {
         const indexLoveSong = Number(loveSongElement.dataset.index);
-        _this.addSongLove(indexLoveSong);
-        loveSongElement.classList.add("active");
+        const active = Number(songElenment.getAttribute("active"));
+        if (_this.checkAddLoveSong(active)) {
+          _this.addSongLove(indexLoveSong);
+          loveSongElement.classList.add("active");
+          notification.classList.add("active");
+          setTimeout(() => {
+            notification.classList.remove("active");
+          }, 1500);
+        } else {
+          return;
+        }
       }
     };
 
     // Bật nhạc bài hát yêu thích khi nhấn vào bài hát trong playlist
     allSongLove.onclick = function (e) {
       const songLoveElenment = e.target.closest(".item-song-love:not(.active)");
-      const loveSongElement = e.target.closest(".list-songs_icon");
-      if (songLoveElenment) {
+      const songLoveElenmentAcive = e.target.closest(".item-song-love");
+      const loveSongElement = e.target.closest(".list-songs_icon-love");
+      if (songLoveElenment && !loveSongElement) {
         _this.isLoveSong = true;
         _this.currentActive = Number(songLoveElenment.getAttribute("active"));
         console.log(_this.currentActive);
@@ -290,6 +302,12 @@ const app = {
         _this.renderPlaylist();
         audio.play();
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      }
+      // Xóa bài hát yêu thích
+      if (loveSongElement) {
+        const deleteIndexSong = Number(songLoveElenment.dataset.index);
+        _this.playlistLove.splice(deleteIndexSong, 1);
+        _this.renderPlaylistLove();
       }
     };
   },
@@ -308,8 +326,6 @@ const app = {
     }
     this.loadCurrentSong();
     this.currentActive = this.currentIndex;
-    console.log(this.currentIndex);
-    console.log(this.currentActive);
   },
   randomPlaySong: function () {
     let newIndex;
@@ -332,6 +348,12 @@ const app = {
   addSongLove: function (indexLoveSong) {
     const indexArrSongs = this.songs[indexLoveSong];
     this.playlistLove.push(indexArrSongs);
+  },
+  checkAddLoveSong: function (active) {
+    const isCheck = this.playlistLove.every((item) => {
+      return item.id != active;
+    });
+    return isCheck;
   },
   start: function () {
     // Định nghĩa các thuôc tính cho object

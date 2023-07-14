@@ -421,7 +421,7 @@ input[type="range"]::-ms-thumb {
   max-width: 600px;
   position: fixed;
   width: 90%;
-  height: 600px;
+  height: 525px;
   background: var(--text-color);
   top: 50%;
   left: 50%;
@@ -511,4 +511,48 @@ input[type="range"]::-ms-thumb {
 
 .list-songs_icon-love {
   color: red;
+}
+
+/* NOTIFICATION */
+.notification {
+  position: fixed;
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  width: 90%;
+  height: 60px;
+  background: linear-gradient(30deg, #5c258d, #4389a2);
+  border-radius: 14px;
+  z-index: 30;
+}
+.notification.active {
+  top: 8%;
+  transition: all 0.3s ease-in-out;
+}
+.noti-content {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.noti-left {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.noti-left,
+.noti-text {
+  margin: 0 10px;
+}
+.noti-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.noti-text {
+  color: var(--text-color);
 }
