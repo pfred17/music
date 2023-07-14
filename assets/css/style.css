@@ -22,7 +22,7 @@ li {
   list-style: none;
 }
 .main {
-  max-width: 600px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -426,7 +426,7 @@ input[type="range"]::-ms-thumb {
 }
 .list-songs_box,
 .list-love-songs_box {
-  max-width: 600px;
+  max-width: 480px;
   position: fixed;
   width: 90%;
   height: 525px;
@@ -526,15 +526,14 @@ input[type="range"]::-ms-thumb {
   position: fixed;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 600px;
+  max-width: 480px;
   width: 90%;
   height: 60px;
-  background: linear-gradient(30deg, #5c258d, #4389a2);
-  border-radius: 14px;
-  top: 10%;
+  bottom: 40%;
   z-index: 30;
   animation: animationFirst ease-in 0.3s,
     animationSecond linear 0.3s 1.5s forwards;
+  pointer-events: none;
 }
 @keyframes animationFirst {
   from {
@@ -550,15 +549,17 @@ input[type="range"]::-ms-thumb {
   }
 }
 .notification.active {
-  top: 8%;
+  top: 5%;
   transition: all 0.3s ease-in-out;
 }
 .noti-content {
-  width: 90%;
+  width: 80%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 14px;
+  background: linear-gradient(30deg, #5c258d, #4389a2);
   margin: 0 auto;
 }
 .noti-left {
