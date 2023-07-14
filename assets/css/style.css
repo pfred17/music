@@ -119,6 +119,15 @@ li {
   justify-content: center;
   margin: 20px 0;
 }
+.container-info {
+  width: 80%;
+  height: max-content;
+  font-weight: 600;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .name-song {
   text-align: center;
   font-size: 1.8rem;
@@ -128,7 +137,6 @@ li {
   display: block;
   margin: 0 auto;
   width: 100%;
-  height: 28px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -463,7 +471,7 @@ input[type="range"]::-ms-thumb {
   color: var(--text-color);
 }
 .item-song-love.active .item-name,
-.item-song-love.active .list-songs_icon {
+.item-song-love.active .list-songs_icon-love {
   color: var(--text-color);
 }
 .item-name {
@@ -516,7 +524,6 @@ input[type="range"]::-ms-thumb {
 /* NOTIFICATION */
 .notification {
   position: fixed;
-  top: -10%;
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 600px;
@@ -524,7 +531,23 @@ input[type="range"]::-ms-thumb {
   height: 60px;
   background: linear-gradient(30deg, #5c258d, #4389a2);
   border-radius: 14px;
+  top: 10%;
   z-index: 30;
+  animation: animationFirst ease-in 0.3s,
+    animationSecond linear 0.3s 1.5s forwards;
+}
+@keyframes animationFirst {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes animationSecond {
+  to {
+    opacity: 0;
+  }
 }
 .notification.active {
   top: 8%;

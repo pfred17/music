@@ -21,7 +21,6 @@ const allSongLove = $(".all-songs-love");
 const overlay = $(".overlay");
 const closeLoveSongPlaylist = $(".closeLovePlaylist");
 const notification = $(".notification");
-console.log(notification);
 const app = {
   currentIndex: 0,
   currentActive: 0,
@@ -61,8 +60,8 @@ const app = {
     },
     {
       id: 4,
-      name: "Hái Sao",
-      singer: "Pixel Neko",
+      name: "em khiến anh muốn trở thành người Hà Nội",
+      singer: "Negav",
       path: "./assets/song/song5.mp3",
       img: "./assets/img/img5.jpg",
     },
@@ -120,10 +119,10 @@ const app = {
         song.id === this.currentActive ? "active" : ""
       }" data-index = ${index} active=${song.id}>
       <div class="left-item-song">
-        <div class="avatar">
-          <img src="${song.img}" alt="#" class=" avatar avatar-img">
-        </div>
-          <span class="item-name">${song.name}</span>
+      <div class="avatar">
+      <img src="${song.img}" alt="#" class=" avatar avatar-img">
+      </div>
+      <span class="item-name">${song.name}</span>
       </div>
       <span class="list-songs_icon" data-index = ${index}><i class="fa-regular fa-heart"></i></span>
     </div>`;
@@ -136,16 +135,30 @@ const app = {
       <div class="item-song-love ${
         item.id === this.currentActive ? "active" : ""
       }" data-index = ${index} active=${item.id}>
-        <div class="left-item-song">
-          <div class="avatar">
-            <img src="${item.img}" alt="#" class=" avatar avatar-img">
-          </div>
-            <span class="item-name">${item.name}</span>
-        </div>
+      <div class="left-item-song">
+      <div class="avatar">
+      <img src="${item.img}" alt="#" class=" avatar avatar-img">
+      </div>
+      <span class="item-name">${item.name}</span>
+      </div>
         <span class="list-songs_icon-love"><i class="fa-regular fa-trash-can"></i></span>
-      </div>`;
+        </div>`;
     });
     allSongLove.innerHTML = htmls.join("");
+  },
+  // ./assets/img/error.png
+  renderNotification: function ({ srcImg, title }) {
+    const wrapper = document.getElementById("notification");
+    const notificationBox = document.createElement("div");
+    notificationBox.classList.add("notification");
+    notificationBox.innerHTML = `
+      <div class="noti-content">
+      <div class="noti-left">
+      <img src="${srcImg}" alt="notification"/>
+      </div>
+      <div class="noti-text"><p>${title}</p></div>
+    </div>`;
+    wrapper.appendChild(notificationBox);
   },
   loadCurrentSong: function () {
     cd.src = this.currentSong.img;
@@ -261,13 +274,13 @@ const app = {
       const loveSongElement = e.target.closest(".list-songs_icon");
       if (songElenment && !loveSongElement) {
         _this.isLoveSong = false;
+        loveSongElement.classList.add("active");
         _this.currentActive = Number(songElenment.getAttribute("active"));
         _this.currentIndex = Number(songElenment.dataset.index);
         _this.loadCurrentSong();
         _this.renderPlaylist();
         audio.play();
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        loveSongElement.classList.add("active");
         // closeBtn.click();
       }
       // Thêm bài hát yêu thích
@@ -275,14 +288,17 @@ const app = {
         const indexLoveSong = Number(loveSongElement.dataset.index);
         const active = Number(songElenment.getAttribute("active"));
         if (_this.checkAddLoveSong(active)) {
+          _this.renderNotification({
+            title: "Add success",
+            srcImg: "./assets/img/success.png",
+          });
           _this.addSongLove(indexLoveSong);
           loveSongElement.classList.add("active");
-          notification.classList.add("active");
-          setTimeout(() => {
-            notification.classList.remove("active");
-          }, 1500);
         } else {
-          return;
+          _this.renderNotification({
+            title: "This song was added before",
+            srcImg: "./assets/img/warning.png",
+          });
         }
       }
     };
@@ -308,6 +324,10 @@ const app = {
         const deleteIndexSong = Number(songLoveElenment.dataset.index);
         _this.playlistLove.splice(deleteIndexSong, 1);
         _this.renderPlaylistLove();
+        _this.renderNotification({
+          title: "Delete success",
+          srcImg: "./assets/img/error.png",
+        });
       }
     };
   },
