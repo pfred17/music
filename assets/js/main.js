@@ -281,7 +281,7 @@ const app = {
         audio.play();
         // loveSongElement.classList.add("active");
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        // closeBtn.click();
+        closeBtn.click();
       }
       // Thêm bài hát yêu thích
       if (loveSongElement) {
