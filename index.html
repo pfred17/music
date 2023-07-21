@@ -18,6 +18,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@300;500&family=Rubik:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
     
   </head>
   <body>
@@ -26,11 +27,25 @@
       <div class="overlay"></div>
       <div class="wrapper" id="notification">
         <!-- notification modal -->
+        <!-- form email -->
+        <div class="container-form" id="container-form" style="display: none;">
+          <span id="close-email" class="button-form-close">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+          <div class="form-header">
+            <h3 class="heading">XIN CHÀO</h3>
+            <p>
+              mình rất mong nhận được phản hồi từ các bạn 
+            </p>
+          </div>
+          <div id="form-box"></div>
+        </div>
         <!-- header -->
         <header class="header">
           <div class="header-list">
             <span class="header-item name-app">TuT</span>
             <div class="header-item">
+              <span class="feedback"><i class="fa-regular fa-message"></i></span>
               <span class="favourite-songs"><i class="fa-regular fa-heart"></i></span>
               <span class="list-songs"><i class="fa-solid fa-headphones"></i></span>
             </div>
@@ -81,7 +96,6 @@
               </ul>
               <span class="loop"><i class="fa-solid fa-rotate-left"></i></span>
             </div>
-            
           </div>
         </section>
       </div>

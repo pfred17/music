@@ -21,6 +21,10 @@ const allSongLove = $(".all-songs-love");
 const overlay = $(".overlay");
 const closeLoveSongPlaylist = $(".closeLovePlaylist");
 const notification = $(".notification");
+const feedback = $(".feedback");
+const containerForm = document.getElementById("container-form");
+const formBox = document.getElementById("form-box");
+const closeFeedback = $(".button-form-close");
 const app = {
   currentIndex: 0,
   currentActive: 0,
@@ -28,6 +32,7 @@ const app = {
   isRandom: false,
   isLoop: false,
   isLoveSong: false,
+  isRenderEmail: true,
   playlistLove: [],
   songs: [
     {
@@ -160,6 +165,29 @@ const app = {
     </div>`;
     wrapper.appendChild(notificationBox);
   },
+  renderEmailForm: function () {
+    const formBox = document.getElementById("form-box");
+    const sendForm = document.createElement("form");
+    sendForm.innerHTML = ` <div class="wrapper-form">
+    <input
+    type="text"
+    id="name"
+    class="name-form"
+    placeholder="Name..."
+    
+  />
+  <textarea
+    id="message"
+    class="message-form"
+    placeholder="Massage..."
+    
+  ></textarea>
+  <button id="button-form" type="submit" class="button-form">
+    <i class="fa-regular fa-paper-plane"></i>
+  </button>
+</div>`;
+    formBox.appendChild(sendForm);
+  },
   loadCurrentSong: function () {
     cd.src = this.currentSong.img;
     nameSong.textContent = this.currentSong.name;
@@ -269,9 +297,9 @@ const app = {
     };
     // Bật nhạc khi nhấn vào bài hát trong playlist và thêm bài hát yêu thích
     allSong.onclick = function (e) {
-      // Bật nhạc
       const songElenment = e.target.closest(".item-song:not(.active)");
       const loveSongElement = e.target.closest(".list-songs_icon");
+      // Bật nhạc khi nhắn vào bài hát
       if (songElenment && !loveSongElement) {
         _this.isLoveSong = false;
         _this.currentActive = Number(songElenment.getAttribute("active"));
@@ -279,7 +307,6 @@ const app = {
         _this.loadCurrentSong();
         _this.renderPlaylist();
         audio.play();
-        // loveSongElement.classList.add("active");
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
         closeBtn.click();
       }
@@ -302,7 +329,6 @@ const app = {
         }
       }
     };
-
     // Bật nhạc bài hát yêu thích khi nhấn vào bài hát trong playlist
     allSongLove.onclick = function (e) {
       const songLoveElenment = e.target.closest(".item-song-love:not(.active)");
@@ -311,13 +337,13 @@ const app = {
       if (songLoveElenment && !loveSongElement) {
         _this.isLoveSong = true;
         _this.currentActive = Number(songLoveElenment.getAttribute("active"));
-        console.log(_this.currentActive);
         _this.currentIndex = Number(songLoveElenment.dataset.index);
         _this.loadCurrentSong();
         _this.renderPlaylistLove();
         _this.renderPlaylist();
         audio.play();
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        closeLoveSongPlaylist.click();
       }
       // Xóa bài hát yêu thích
       if (loveSongElement) {
@@ -329,6 +355,17 @@ const app = {
           srcImg: "./assets/img/error.png",
         });
       }
+    };
+    // Bật feed back
+    feedback.onclick = function () {
+      containerForm.style.display = "block";
+      overlay.style.display = "block";
+      _this.sendMail();
+    };
+    // Đóng feedback
+    closeFeedback.onclick = function () {
+      containerForm.style.display = "none";
+      overlay.style.display = "none";
     };
   },
   nextSong: function () {
@@ -375,6 +412,31 @@ const app = {
     });
     return isCheck;
   },
+  sendMail: function () {
+    // Gửi email
+    const buttonForm = $("#button-form");
+    buttonForm.addEventListener("click", function (e) {
+      let nameUser = document.getElementById("name").value;
+      let massageUser = document.getElementById("message").value;
+      let body =
+        "Tên người phản hồi: " + nameUser + "<br /> Lời nhắn: " + massageUser;
+      e.preventDefault();
+      Email.send({
+        SecureToken: "73329add-9966-4c44-a330-bd39b690a761",
+        To: "phucmin74@gmail.com",
+        From: "phucmin74@gmail.com",
+        Subject: "Music App contact from user",
+        Body: body,
+      }).then(() => app.hendleClostFeedback());
+    });
+  },
+  hendleClostFeedback: function () {
+    app.renderNotification({
+      title: "Đã gửi thành công",
+      srcImg: "./assets/img/success.png",
+    });
+    setTimeout(() => closeFeedback.click(), 3000);
+  },
   start: function () {
     // Định nghĩa các thuôc tính cho object
     this.defineProperties();
@@ -384,6 +446,7 @@ const app = {
     this.loadCurrentSong();
     // Render playlist
     this.renderPlaylist();
+    this.renderEmailForm();
   },
 };
 app.start();
